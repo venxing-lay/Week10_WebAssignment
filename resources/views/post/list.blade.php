@@ -21,10 +21,11 @@
             <th scope="row">{{ $category->id }}</th>
             <td>{{ $category->title }}</td>
             <td>{{ $category->category->name }}</td>
-            <td>{{ $category->user->name }}</td>
+            <td>{{ $category->user->role }}</td>
             <td style="text-align: center;">
+
+                @if(Auth::user()->id == $category->posted_by || Auth::user()->id == 1 || Auth::user()->role == "admin")
                 <button onclick="window.location.href='{{ route('post.show', $category->id) }}'" type="button" class="btn">Show</button>
-                @if(Auth::user()->id == $category->posted_by || Auth::user()->id == 1)
                 <button onclick="window.location.href='{{ route('post.edit', $category->id) }}'" type="button" class="btn">Edit</button>
                 <button onclick="confirm_delete('{{ $category->id }}')" type="button" class="btn">Delete</button>
                 <form action="{{route('post.destroy',$category->id)}}" method="POST" id="delete_{{$category->id}}">

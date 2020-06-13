@@ -4,7 +4,7 @@
 
 @section('content_page')
 
-<button onclick="window.location.href='{{route('category.create')}}'" type="button" class="btn btn-primary" style="float: right;">Create</button>
+
 <table id="dtOrderExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
     <thead>
         <tr>
@@ -15,19 +15,24 @@
     </thead>
     <tbody>
         @foreach($categories as $category)
+            <tr>
+                @can('categories',$category)
+                    <button onclick="window.location.href='{{route('category.create')}}'" type="button" class="btn btn-primary" style="float: right;">Create</button>
+                @endcan
+            </tr>
         <tr>
             <th scope="row">{{ $category->id }}</th>
             <td>{{ $category->name }}</td>
             <td style="text-align: center;">
+                @can('categories',$category)
                 <button onclick="window.location.href='{{ route('category.show', $category->id) }}'" type="button" class="btn">Show</button>
-                @if(Auth::user()->id == $category->posted_by || Auth::user()->id == 1)
                 <button onclick="window.location.href='{{ route('category.edit', $category->id) }}'" type="button" class="btn">Edit</button>
                 <button onclick="confirm_delete('{{ $category->id }}')" type="button" class="btn">Delete</button>
                 <form action="{{route('category.destroy',$category->id)}}" method="POST" id="delete_{{$category->id}}">
                     @csrf
                     @method("delete")
                 </form>
-                @endif
+                @endcan
             </td>
         </tr>
         @endforeach

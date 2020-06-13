@@ -24,8 +24,12 @@ Auth::routes();
 
 
 Route::group(["middleware" => "auth"], function () {
-    Route::resource("/post", "PostController");
+    Route::group(["middleware" => "admin_role"], function() {
+
+    });
     Route::resource("/category", "CategoryController");
+    Route::resource("/post", "PostController");
+
 });
 
 Auth::routes();

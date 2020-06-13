@@ -13,7 +13,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $categories = Post::paginate(5);
+        $categories = Post::paginate(10);
 
         return view("post.list",compact("categories"))->with(["success" => "category"]);
     }
